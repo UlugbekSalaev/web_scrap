@@ -3,7 +3,7 @@ import os
 import requests
 import textwrap
 from bs4 import BeautifulSoup
-
+import lxml
 
 class GrabberArticle:
     url = ""
@@ -59,6 +59,8 @@ def get_urls(url):
         url1 = p.find('a')['href']
         caturl= p.find(class_="data").find('a')['href']
         category=p.find(class_="data").find('a').text.strip()
+        url1 = "https://m.kun.uz/"+url1
+        caturl = "https://m.kun.uz/"+caturl
         try:
             mr = GrabberArticle(url1)
             mr.get_text()
