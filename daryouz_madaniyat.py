@@ -36,10 +36,10 @@ def get_text(url):
         text += x.text + '\n\n'
 
     #write to db
-    sql = "INSERT INTO daryouz (title, text, date, url, category) VALUES (%s, %s, %s, %s, %s)"
+    sql = "INSERT IGNORE INTO daryouz_madaniyat (title, text, date, url, category) VALUES (%s, %s, %s, %s, %s)"
     val = (title, text, date, url, category)
     cursor.execute(sql, val)
-    mydb.commit()
+    # mydb.commit()
 
 def get_urls(url):
     '''Returns urls from daryo.uz/uz.'''
@@ -61,6 +61,9 @@ def get_urls(url):
             except Exception:
                 print("Error processing URL")
 
-for i in range(1, 6609):
+for i in range(1, 457):
     print("Page:" + str(i))
-    get_urls("https://m.daryo.uz/category/dunyo/page/" + str(i) + "/")
+    get_urls("https://m.daryo.uz/category/madaniyat/page/" + str(i) + "/")
+    mydb.commit()
+
+finish
