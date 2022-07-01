@@ -21666,7 +21666,7 @@ urls = [
     'https://bugun.uz/4281?rstr=lat',
 ]
 
-i = 644
+i = 7692
 n = len(urls)
 for url in urls[i:]:
     get_text(url, i)

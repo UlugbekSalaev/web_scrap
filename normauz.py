@@ -47,7 +47,7 @@ def get_text(url, category):
             text += x.text + '\n\n'
 
         # write to db
-        sql = "INSERT IGNORE INTO kunuz (title, text, date, url, category) VALUES (%s, %s, %s, %s, %s)"
+        sql = "INSERT IGNORE INTO normauz (title, text, date, url, category) VALUES (%s, %s, %s, %s, %s)"
         val = (title, text, date, url, category)
         cursor.execute(sql, val)
         print("Success:" + url)
