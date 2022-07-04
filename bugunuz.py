@@ -15,14 +15,13 @@ mydb = mysql.connector.connect(
 
 cursor = mydb.cursor()
 
-
 def write_in_file(self, text):
     file = open(str(self.path) + '/' + str(self.filename), mode="w")
     file.write(text)
     file.close()
 
 
-def get_text(url, i):
+def get_text(url):
     try:
         r = requests.get(url).text
         soup = BeautifulSoup(r, 'html.parser')
@@ -46,10 +45,10 @@ def get_text(url, i):
         sql = "INSERT INTO bugunuz (title, text, date, url, category) VALUES (%s, %s, %s, %s, %s)"
         val = (title, text, date, url, category)
         cursor.execute(sql, val)
-        # mydb.commit()
-        print(str(i) + "-Success:" + url)
+        mydb.commit()
+        print("-Success:" + url)
     except:
-        print("Error: "+url)
+        print(" Error: "+url)
 
 def get_urls(url):
     '''Returns urls from daryo.uz/uz.'''
@@ -21665,13 +21664,7 @@ urls = [
     'https://bugun.uz/2021/02/07/toshkentda-cobalt-urib-yuborgan-piyoda-voqea-zhojida-vafot-etdi/?rstr=lat',
     'https://bugun.uz/4281?rstr=lat',
 ]
-
-i = 7692
-n = len(urls)
-for url in urls[i:]:
-    get_text(url, i)
-    if i % 20 == 0:
-        print(str(n)+" ta urls --- %s minutes ---" % ((time.time() - start_time) / 60))
-        mydb.commit()
-    i += 1
+oxridan 549ta ketdi
+for url in reversed(urls[549:]):
+    get_text(url)
 mydb.commit()

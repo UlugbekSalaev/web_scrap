@@ -18,7 +18,7 @@ def write_in_file(self, text):
     file.close()
 
 def get_text(url):
-    r = requests.get(url).text
+    r = requests.get(url, timeout=5).text
     soup = BeautifulSoup(r, 'html.parser')
     category = soup.find(class_='itemCat').text
     title = soup.find(class_='title-1').text
@@ -36,14 +36,14 @@ def get_text(url):
         text += x.text + '\n\n'
 
     #write to db
-    sql = "INSERT IGNORE INTO daryouz_mahalliy (title, text, date, url, category) VALUES (%s, %s, %s, %s, %s)"
+    sql = "INSERT IGNORE INTO daryouz_foto (title, text, date, url, category) VALUES (%s, %s, %s, %s, %s)"
     val = (title, text, date, url, category)
     cursor.execute(sql, val)
     # mydb.commit()
 
 def get_urls(url):
     '''Returns urls from daryo.uz/uz.'''
-    page = requests.get(url).text
+    page = requests.get(url, timeout=5).text
     soup = BeautifulSoup(page, "lxml")
 
     count = 0
@@ -61,7 +61,7 @@ def get_urls(url):
             except Exception:
                 print("Error processing URL")
 
-for i in range(6012, 9044):
+for i in range(1, 536):
     print("Page:" + str(i))
-    get_urls("https://m.daryo.uz/category/mahalliy/page/" + str(i) + "/")
+    get_urls("https://m.daryo.uz/category/foto/page/" + str(i) + "/")
     mydb.commit()

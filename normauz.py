@@ -78,7 +78,9 @@ def get_urls(url):
             print("Bir narsa xatolik!")
     mydb.commit()
 
-for i in range(216, 300):
+for i in range(283, 300):
     print("Page:" + str(i))
     get_urls("https://www.norma.uz/oz/?page=" + str(i))
     print("--- %s minutes ---" % ((time.time() - start_time) / 60))
+
+finish

@@ -61,7 +61,9 @@ def get_urls(url):
             except Exception:
                 print("Error processing URL")
 
-for i in range(2571, 6609):
+for i in range(5521, 6609):
     print("Page:" + str(i))
     get_urls("https://m.daryo.uz/category/dunyo/page/" + str(i) + "/")
     mydb.commit()
+
+finish
