@@ -21664,7 +21664,9 @@ urls = [
     'https://bugun.uz/2021/02/07/toshkentda-cobalt-urib-yuborgan-piyoda-voqea-zhojida-vafot-etdi/?rstr=lat',
     'https://bugun.uz/4281?rstr=lat',
 ]
-oxridan 549ta ketdi
-for url in reversed(urls[549:]):
+
+for url in reversed(urls[:-548]):
     get_text(url)
 mydb.commit()
+
+finish

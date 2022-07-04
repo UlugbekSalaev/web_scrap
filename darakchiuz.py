@@ -19,7 +19,7 @@ headers = {
 def get_text(url, cat):
     print(url)
 
-    r = requests.get(url, timeout=5, headers=headers).text
+    r = requests.get(url, headers=headers).text
     soup = BeautifulSoup(r, 'html.parser')
     # category = soup.find(class_='itemCat').text
     title = soup.find(class_="pg-article").find('h1', {"class": "mb-4"}).text
@@ -33,11 +33,10 @@ def get_text(url, cat):
     sql = "INSERT INTO darakchiuz (title, text, date, url, category) VALUES (%s, %s, %s, %s, %s)"
     val = (title, text, date, url, cat)
     cursor.execute(sql, val)
-    sleep(3)
+    # sleep(4)
 
 def get_urls(url, cat):
     print("Cat url: " +url)
-    '''Returns urls from daryo.uz/uz.'''
     page = requests.get(url, timeout=5, headers=headers).text
     soup = BeautifulSoup(page, "lxml")
 
@@ -71,8 +70,8 @@ def get_urls(url, cat):
 cats = ["Siyosat", "Jamiyat", "Dunyo", "Madaniyat", "Sport", "Jinoyat", "Hi-tech", "Salomatlik", "Mutolaa", "Iqtisodiyot", "Moziydan sado"]
 catsid = [65, 44, 45, 57, 46, 50, 49, 48, 53, 64, 55]
 catscnt = [205, 2764, 970, 92, 445, 234, 48, 113, 34, 100, 5]
-
-for ind in range(1,2): # range(len(catsid))
-    for i in range(34, catscnt[ind]+1):
-        print("Page:" + cats[ind] + ": " + str(i))
-        get_urls("https://darakchi.uz/oz/categories/"+str(catsid[ind])+"?page=" + str(i), cats[ind])
+              # 280
+ind = 2
+for i in range(1, catscnt[ind]+1):
+    print("Page:" + cats[ind] + ": " + str(i))
+    get_urls("https://darakchi.uz/oz/categories/"+str(catsid[ind])+"?page=" + str(i), cats[ind])

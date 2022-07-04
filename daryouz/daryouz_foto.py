@@ -1,3 +1,5 @@
+import time
+
 import mysql.connector
 import requests
 from bs4 import BeautifulSoup
@@ -18,6 +20,7 @@ def write_in_file(self, text):
     file.close()
 
 def get_text(url):
+    time.sleep(1)
     r = requests.get(url, timeout=5).text
     soup = BeautifulSoup(r, 'html.parser')
     category = soup.find(class_='itemCat').text
@@ -61,7 +64,8 @@ def get_urls(url):
             except Exception:
                 print("Error processing URL")
 
-for i in range(1, 536):
+for i in range(216, 536):
     print("Page:" + str(i))
     get_urls("https://m.daryo.uz/category/foto/page/" + str(i) + "/")
     mydb.commit()
+finish
