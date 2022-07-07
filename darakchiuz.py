@@ -33,10 +33,11 @@ def get_text(url, cat):
     sql = "INSERT INTO darakchiuz (title, text, date, url, category) VALUES (%s, %s, %s, %s, %s)"
     val = (title, text, date, url, cat)
     cursor.execute(sql, val)
-    # sleep(4)
+    sleep(6)
 
 def get_urls(url, cat):
     print("Cat url: " +url)
+    sleep(6)
     page = requests.get(url, timeout=5, headers=headers).text
     soup = BeautifulSoup(page, "lxml")
 
@@ -71,7 +72,7 @@ cats = ["Siyosat", "Jamiyat", "Dunyo", "Madaniyat", "Sport", "Jinoyat", "Hi-tech
 catsid = [65, 44, 45, 57, 46, 50, 49, 48, 53, 64, 55]
 catscnt = [205, 2764, 970, 92, 445, 234, 48, 113, 34, 100, 5]
               # 280
-ind = 2
-for i in range(1, catscnt[ind]+1):
+ind = 1
+for i in range(403, 2162):
     print("Page:" + cats[ind] + ": " + str(i))
     get_urls("https://darakchi.uz/oz/categories/"+str(catsid[ind])+"?page=" + str(i), cats[ind])

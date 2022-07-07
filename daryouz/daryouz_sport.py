@@ -42,11 +42,11 @@ def get_text(url):
     val = (title, text, date, url, category)
     cursor.execute(sql, val)
     # mydb.commit()
-    sleep(5)
+    # sleep(5)
 
 def get_urls(url):
     '''Returns urls from daryo.uz/uz.'''
-    page = requests.get(url, timeout=5, headers=headers).text
+    page = requests.get(url, headers=headers).text
     soup = BeautifulSoup(page, "lxml")
 
     count = 0
@@ -64,7 +64,8 @@ def get_urls(url):
             except Exception:
                 print("Error processing URL")
 
-for i in range(1878, 3185):
+for i in range(3185, 3185):
     print("Page:" + str(i))
     get_urls("https://m.daryo.uz/category/sport/page/" + str(i) + "/")
     mydb.commit()
+finish

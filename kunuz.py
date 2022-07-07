@@ -75,7 +75,7 @@ def get_urls(url):
     mydb.commit()
 
 
-for i in range(7403, 11582):
+for i in range(7659, 11582):
     print("Page:" + str(i))
     get_urls("https://m.kun.uz/uz?q=%2Fuz&page=" + str(i))
     print("--- %s minutes ---" % ((time.time() - start_time) / 60))
