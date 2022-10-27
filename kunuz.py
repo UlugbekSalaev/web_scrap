@@ -53,7 +53,7 @@ def get_text(url, category):
         print("Success:" + url)
     except:
         print("Error:" + url)
-    time.sleep(5)
+    # time.sleep(5)
 
 def get_urls(url):
     '''Returns data specifically from kun.uz/uz.'''
@@ -75,7 +75,7 @@ def get_urls(url):
     mydb.commit()
 
 
-for i in range(7659, 11582):
+for i in range(8104, 11582):
     print("Page:" + str(i))
     get_urls("https://m.kun.uz/uz?q=%2Fuz&page=" + str(i))
     print("--- %s minutes ---" % ((time.time() - start_time) / 60))

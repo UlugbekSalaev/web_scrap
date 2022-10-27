@@ -73,6 +73,6 @@ catsid = [65, 44, 45, 57, 46, 50, 49, 48, 53, 64, 55]
 catscnt = [205, 2764, 970, 92, 445, 234, 48, 113, 34, 100, 5]
               # 280
 ind = 1
-for i in range(403, 2162):
+for i in range(428, 2162):
     print("Page:" + cats[ind] + ": " + str(i))
     get_urls("https://darakchi.uz/oz/categories/"+str(catsid[ind])+"?page=" + str(i), cats[ind])
