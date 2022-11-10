@@ -15,49 +15,34 @@ cursor = mydb.cursor()
 headers = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
 
-def get_text(url, cat, date):
-    print("Pr:" + url)
+def get_text(url, i):
+    print(i, "Pr:", url)
     # time.sleep(5)
     r = requests.get(url, headers=headers).text
     soup = BeautifulSoup(r, 'html.parser')
-    # category = soup.find(class_='itemCat').text
-    title = soup.find(id="article_title").text
-    # date = soup.find(class_="articleDateTime").text.strip()
+    if not soup.find(class_="docBody__content-em"):
+        return
+    if soup.find(class_='ACT_FORM'):
+        category = soup.find(class_='ACT_FORM').text
+    else:
+        category = ""
+    title = soup.find(class_="ACT_TITLE").text
+    date = soup.find(class_="docHeader__item-value d-flex").text.strip()
     # text = soup.find(class_='pg-article__text mb-5').text
     text = ""
-    for p in soup.find(class_='article-text').find_all('p'):
+    for p in soup.find(class_='docBody__content-em').find_all(class_='ACT_TEXT lx_elem_comment'):
         text += p.text + "\n"
 
     # write to db
-    sql = "INSERT INTO gazetauz (title, text, date, url, category) VALUES (%s, %s, %s, %s, %s)"
-    val = (title, text, date, url, cat)
+    sql = "INSERT IGNORE INTO lexuz (title, text, date, url, category) VALUES (%s, %s, %s, %s, %s)"
+    val = (title, text, date, url, category)
     cursor.execute(sql, val)
     mydb.commit()
+    # print(date, category, title, text)
 
-def get_urls(url, cat):
-    print("Cat url: " +url)
-    # time.sleep(5)
-    page = requests.get(url, headers=headers).text
-    soup = BeautifulSoup(page, "lxml")
-    try:
-        for c in soup.find_all(class_="nblock"):
-            url1 = c.find('h3').find('a', href=True)['href']
-            url1 = "https://www.gazeta.uz" + url1
-            date = c.find(class_="ndt").text
-            try:
-                get_text(url1, cat, date)
-            except:
-                print("Error in get text")
-
-    except Exception:
-        print("Error in get URL")
-
-cats = ["Jamiyat", "Siyosat", "Iqtisodiyot", "Sport", "Kolumnist", "Koronavirus"]
-catsid = ["society", "politics", "economy", "sport", "column", "coronavirus"]
-catscnt = [793, 283, 260, 98, 6, 98,]
-# 690 ketdi,
-
-for ind in range(0, 1):
-    for i in range(745, catscnt[ind]+1):
-        print("Page:" + cats[ind] + ": " + str(i))
-        get_urls("https://gazeta.uz/oz/"+catsid[ind]+"?page=" + str(i), cats[ind])
+i = 0
+with open("lexuz.txt") as file:
+    for line in file:
+        i = i + 1
+        if i>1716:
+            get_text(line.rstrip(), i)
