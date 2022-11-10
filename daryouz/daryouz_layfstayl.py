@@ -62,18 +62,11 @@ def get_urls(url):
             except Exception:
                 print("Error processing URL")
 
-for i in range(1, 118):
-    print("Page:" + str(i))
-    get_urls("https://m.daryo.uz/category/retsept/page/" + str(i) + "/")
-    mydb.commit()
 
-# retsept 118
-# sayohat 13
-# salomatlik 219
-# qoziqorin 458
-# avto 606
-# arxitektura 6
-# gadjet 140
-# ilm-fan 127
-# koinot 94
-# media 21
+cars = ["Ford", "Volvo", "BMW"]
+print(cars[0:1])
+
+for i in range(1, 0):
+    print("Page:" + str(i))
+    get_urls("https://m.daryo.uz/category/ilm-fan/page/" + str(i) + "/")
+    mydb.commit()
