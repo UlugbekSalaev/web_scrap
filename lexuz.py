@@ -7,8 +7,8 @@ import lxml
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="",
-    database="corpus"
+    password="UrDU341!",
+    database="corpus_web"
 )
 
 cursor = mydb.cursor()
@@ -26,10 +26,19 @@ def get_text(url, i):
         category = soup.find(class_='ACT_FORM').text
     else:
         category = ""
-    title = soup.find(class_="ACT_TITLE").text
+    title = "Unknown title"
+    if soup.find(class_="ACT_TITLE"):
+        title = soup.find(class_="ACT_TITLE").text
+    elif soup.find(class_="ACT_TITLE_APPL"):
+        title = soup.find(class_="ACT_TITLE_APPL").text
+
     date = soup.find(class_="docHeader__item-value d-flex").text.strip()
     # text = soup.find(class_='pg-article__text mb-5').text
+
     text = ""
+    if soup.find(class_='COMMENT_FOR_WARNING'):
+        return
+        # text = soup.find(class_='COMMENT_FOR_WARNING').text
     for p in soup.find(class_='docBody__content-em').find_all(class_='ACT_TEXT lx_elem_comment'):
         text += p.text + "\n"
 
@@ -37,12 +46,14 @@ def get_text(url, i):
     sql = "INSERT IGNORE INTO lexuz (title, text, date, url, category) VALUES (%s, %s, %s, %s, %s)"
     val = (title, text, date, url, category)
     cursor.execute(sql, val)
-    mydb.commit()
+    # mydb.commit()
     # print(date, category, title, text)
 
 i = 0
 with open("lexuz.txt") as file:
     for line in file:
         i = i + 1
-        if i>1716:
+        if i>7114 and i<10001:
             get_text(line.rstrip(), i)
+            if i % 30 == 0:
+                mydb.commit()
